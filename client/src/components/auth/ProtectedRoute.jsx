@@ -1,0 +1,10 @@
+// /client/src/components/auth/ProtectedRoute.jsx
+import React from 'react';
+import { Navigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { selectAuthToken } from '../../store/authSlice';
+
+export default function ProtectedRoute({ children }) {
+  const token = useSelector(selectAuthToken);
+  return token ? children : <Navigate to="/login" replace />;
+}
