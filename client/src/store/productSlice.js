@@ -105,4 +105,12 @@ export const selectProductFilters = (state) => state.product.filters;
 export const selectProductLoading = (state) => state.product.loading;
 export const selectProductError = (state) => state.product.error;
 
+// Combined selector for convenience
+export const selectProductsData = (state) => ({
+  products: state.product.products,
+  total: state.product.total,
+  page: state.product.page,
+  totalPages: state.product.totalPages,
+});
+
 export default productSlice.reducer;

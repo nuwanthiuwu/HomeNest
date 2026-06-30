@@ -6,6 +6,8 @@ import {
   selectProductsData,
   selectProductLoading,
   selectProductError,
+  selectProductFilters,
+  selectProductPage,
 } from '../store/productSlice';
 import { useQueryParams } from '../hooks/useQueryParams';
 import FilterSidebar from '../components/catalog/FilterSidebar';
@@ -18,18 +20,16 @@ export default function ProductCatalogPage() {
   const { products, total, page, totalPages } = useSelector(selectProductsData);
   const loading = useSelector(selectProductLoading);
   const error = useSelector(selectProductError);
+  const filters = useSelector(selectProductFilters);
+  const currentPage = useSelector(selectProductPage);
 
   // Sync filters with URL query params
   useQueryParams();
 
-  // Fetch products on mount or when filters change
+  // Fetch products on mount or when filters/page changes
   useEffect(() => {
-    // fetchProducts will be called by setFilter/setPage actions via middleware
-    // This effect ensures initial load
-    if (products.length === 0 && !loading) {
-      dispatch(fetchProducts());
-    }
-  }, [dispatch, products.length, loading]);
+    dispatch(fetchProducts({ ...filters, page: currentPage, limit: 12 }));
+  }, [dispatch, filters, currentPage]);
 
   return (
     <div className="min-h-screen bg-gray-50">
