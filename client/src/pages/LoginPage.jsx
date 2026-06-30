@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { loginUser, selectAuthLoading, selectAuthError, selectAuthToken, clearError } from '../store/authSlice';
+import { mergeGuestCart } from '../store/cartSlice';
 
 export default function LoginPage() {
   const dispatch = useDispatch();
@@ -20,9 +21,12 @@ export default function LoginPage() {
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(loginUser(form));
+    const result = await dispatch(loginUser(form));
+    if (loginUser.fulfilled.match(result)) {
+      dispatch(mergeGuestCart());
+    }
   };
 
   return (

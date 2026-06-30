@@ -3,7 +3,7 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectAuthUser, selectAuthToken, logoutUser } from '../../store/authSlice';
-import { selectCartItemCount } from '../../store/cartSlice';
+import { selectCartItemCount, resetCart } from '../../store/cartSlice';
 
 export default function Header() {
   const user = useSelector(selectAuthUser);
@@ -12,8 +12,9 @@ export default function Header() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    dispatch(logoutUser());
+  const handleLogout = async () => {
+    dispatch(resetCart());
+    await dispatch(logoutUser());
     navigate('/login');
   };
 
@@ -25,34 +26,34 @@ export default function Header() {
         <nav className="flex items-center gap-6">
           <Link to="/products" className="text-gray-700 hover:text-blue-600 font-medium">Products</Link>
 
+          {/* Cart icon visible for all users (guests + logged-in) — AC-CART-09 */}
+          <Link to="/cart" className="relative text-gray-700 hover:text-blue-600 text-2xl">
+            🛒
+            {cartCount > 0 && (
+              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                {cartCount}
+              </span>
+            )}
+          </Link>
+
           {token && user ? (
-            <>
-              <div className="flex items-center gap-4">
-                <span className="text-gray-700">{user.name}</span>
-                <Link to="/cart" className="relative text-gray-700 hover:text-blue-600 text-2xl">
-                  🛒
-                  {cartCount > 0 && (
-                    <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                      {cartCount}
-                    </span>
-                  )}
-                </Link>
-                <Link to="/profile" className="text-gray-700 hover:text-blue-600">Profile</Link>
-                <button
-                  onClick={handleLogout}
-                  className="text-red-500 hover:text-red-700 font-medium"
-                >
-                  Logout
-                </button>
-              </div>
-            </>
+            <div className="flex items-center gap-4">
+              <span className="text-gray-700">{user.name}</span>
+              <Link to="/profile" className="text-gray-700 hover:text-blue-600">Profile</Link>
+              <button
+                onClick={handleLogout}
+                className="text-red-500 hover:text-red-700 font-medium"
+              >
+                Logout
+              </button>
+            </div>
           ) : (
-            <>
+            <div className="flex items-center gap-3">
               <Link to="/login" className="text-gray-700 hover:text-blue-600 font-medium">Log In</Link>
               <Link to="/register" className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 font-medium">
                 Register
               </Link>
-            </>
+            </div>
           )}
         </nav>
       </div>

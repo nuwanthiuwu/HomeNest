@@ -6,7 +6,9 @@ const Product = require('../models/Product');
 // GET /api/products - list with filters, sort, pagination
 const getProducts = async (req, res) => {
   const schema = Joi.object({
-    category: Joi.string().optional(),
+    category: Joi.alternatives()
+      .try(Joi.array().items(Joi.string()), Joi.string())
+      .optional(),
     minPrice: Joi.number().min(0).optional(),
     maxPrice: Joi.number().min(0).optional(),
     inStock: Joi.boolean().optional(),
@@ -28,7 +30,8 @@ const getProducts = async (req, res) => {
     const filter = { isActive: true };
 
     if (category) {
-      filter.category = category;
+      const categoryList = Array.isArray(category) ? category : [category];
+      filter.category = { $in: categoryList };
     }
 
     if (minPrice !== undefined || maxPrice !== undefined) {

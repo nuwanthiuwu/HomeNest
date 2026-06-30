@@ -10,7 +10,7 @@ import {
   selectSelectedProductError,
   selectProducts,
 } from '../store/productSlice';
-import { addToCart } from '../store/cartSlice';
+import { addItem } from '../store/cartSlice';
 import ImageGallery from '../components/product/ImageGallery';
 import QuantitySelector from '../components/product/QuantitySelector';
 import ProductCard from '../components/common/ProductCard';
@@ -83,10 +83,14 @@ export default function ProductDetailPage() {
     setTimeout(() => setToast(null), 3000);
   };
 
-  const handleAddToCart = () => {
+  const handleAddToCart = async () => {
     if (!product || product.stock === 0) return;
-    dispatch(addToCart({ product, quantity }));
-    showToast(`${product.name} added to cart!`);
+    const result = await dispatch(addItem({ product, quantity }));
+    if (addItem.fulfilled.match(result)) {
+      showToast(`${product.name} added to cart!`);
+    } else {
+      showToast(result.payload || 'Failed to add to cart', 'error');
+    }
   };
 
   const relatedProducts = allProducts.filter((p) => p._id !== id).slice(0, 4);
