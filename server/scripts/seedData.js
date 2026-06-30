@@ -37,7 +37,7 @@ const seedData = async () => {
         rating: 4.5,
         reviews: 128,
         featured: true,
-        image: 'https://picsum.photos/300/300?random=1',
+        image: 'https://dummyimage.com/300x300/e0e0e0/666666.png?text=Product',
         isActive: true,
       },
       {
@@ -49,7 +49,7 @@ const seedData = async () => {
         rating: 4.7,
         reviews: 89,
         featured: true,
-        image: 'https://picsum.photos/300/300?random=',
+        image: 'https://dummyimage.com/300x300/e0e0e0/666666.png?text=Product',
         isActive: true,
       },
       {
@@ -61,7 +61,7 @@ const seedData = async () => {
         rating: 4.3,
         reviews: 256,
         featured: true,
-        image: 'https://picsum.photos/300/300?random=',
+        image: 'https://dummyimage.com/300x300/e0e0e0/666666.png?text=Product',
         isActive: true,
       },
       {
@@ -73,7 +73,7 @@ const seedData = async () => {
         rating: 4.6,
         reviews: 142,
         featured: true,
-        image: 'https://picsum.photos/300/300?random=',
+        image: 'https://dummyimage.com/300x300/e0e0e0/666666.png?text=Product',
         isActive: true,
       },
       {
@@ -85,7 +85,7 @@ const seedData = async () => {
         rating: 4.4,
         reviews: 95,
         featured: true,
-        image: 'https://picsum.photos/300/300?random=',
+        image: 'https://dummyimage.com/300x300/e0e0e0/666666.png?text=Product',
         isActive: true,
       },
       {
@@ -97,7 +97,7 @@ const seedData = async () => {
         rating: 4.8,
         reviews: 67,
         featured: true,
-        image: 'https://picsum.photos/300/300?random=',
+        image: 'https://dummyimage.com/300x300/e0e0e0/666666.png?text=Product',
         isActive: true,
       },
       // New arrivals (recently added, not featured)
@@ -110,7 +110,7 @@ const seedData = async () => {
         rating: 4.2,
         reviews: 73,
         featured: false,
-        image: 'https://picsum.photos/300/300?random=',
+        image: 'https://dummyimage.com/300x300/e0e0e0/666666.png?text=Product',
         isActive: true,
       },
       {
@@ -122,7 +122,7 @@ const seedData = async () => {
         rating: 4.5,
         reviews: 112,
         featured: false,
-        image: 'https://picsum.photos/300/300?random=',
+        image: 'https://dummyimage.com/300x300/e0e0e0/666666.png?text=Product',
         isActive: true,
       },
     ]);
@@ -135,7 +135,7 @@ const seedData = async () => {
         description: 'Limited time offer on selected items',
         ctaText: 'Shop Sale',
         ctaLink: '/products?sale=true',
-        image: 'https://picsum.photos/1200/400?random=99',
+        image: 'https://dummyimage.com/1200x400/3b82f6/ffffff.png?text=Summer+Sale',
         isActive: true,
         startDate: new Date(),
         endDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days

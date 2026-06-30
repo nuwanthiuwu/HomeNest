@@ -37,7 +37,9 @@ export default function ProductCatalogPage() {
 
   // Fetch products on mount or when filters/page changes
   useEffect(() => {
-    dispatch(fetchProducts({ ...filters, page: currentPage, limit: 12 }));
+    // Don't include 'search' in filters - that's for searchProducts endpoint only
+    const { search, ...filterParams } = filters;
+    dispatch(fetchProducts({ ...filterParams, page: currentPage, limit: 12 }));
   }, [dispatch, filters, currentPage]);
 
   return (
