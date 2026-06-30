@@ -16,26 +16,29 @@ export default function FeaturedProducts({ products = [], loading }) {
     );
   }
 
-  if (!products.length) {
-    return null;
-  }
-
   return (
     <div className="mb-12">
       <h2 className="text-2xl font-bold mb-6">Featured Products</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {products.map((product) => (
-          <ProductCard
-            key={product._id}
-            id={product._id}
-            name={product.name}
-            price={product.price}
-            image={product.image}
-            rating={product.rating}
-            stock={product.stock}
-          />
-        ))}
-      </div>
+      {products.length > 0 ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {products.map((product) => (
+            <ProductCard
+              key={product._id}
+              id={product._id}
+              name={product.name}
+              price={product.price}
+              image={product.image}
+              rating={product.rating}
+              stock={product.stock}
+            />
+          ))}
+        </div>
+      ) : (
+        <div className="text-center py-12 bg-gray-50 rounded-lg">
+          <p className="text-gray-500 text-lg">No featured products available at the moment.</p>
+          <p className="text-gray-400 mt-2">Check back soon for new featured items!</p>
+        </div>
+      )}
     </div>
   );
 }
