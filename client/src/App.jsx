@@ -10,6 +10,7 @@ import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import ResetPasswordPage from './pages/ResetPasswordPage';
 import ProfilePage from './pages/ProfilePage';
 import ProductCatalogPage from './pages/ProductCatalogPage';
+import ProductDetailPage from './pages/ProductDetailPage';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 
 export default function App() {
@@ -21,6 +22,7 @@ export default function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/products" element={<ProductCatalogPage />} />
+            <Route path="/products/:id" element={<ProductDetailPage />} />
             <Route path="/register" element={<RegisterPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/forgot-password" element={<ForgotPasswordPage />} />

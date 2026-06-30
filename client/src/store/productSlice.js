@@ -24,6 +24,17 @@ export const searchProducts = createAsyncThunk(
   }
 );
 
+export const fetchProductById = createAsyncThunk(
+  'product/fetchProductById',
+  async (id, { rejectWithValue }) => {
+    try {
+      return await productApi.getProductById(id);
+    } catch (err) {
+      return rejectWithValue(err.response?.data?.message || 'Product not found');
+    }
+  }
+);
+
 const defaultFilters = {
   category: [],
   minPrice: 0,
@@ -42,6 +53,9 @@ const productSlice = createSlice({
     page: 1,
     totalPages: 1,
     filters: { ...defaultFilters },
+    selectedProduct: null,
+    selectedLoading: false,
+    selectedError: null,
     loading: false,
     error: null,
   },
@@ -92,10 +106,30 @@ const productSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
       });
+
+    // Fetch single product
+    builder
+      .addCase(fetchProductById.pending, (state) => {
+        state.selectedLoading = true;
+        state.selectedError = null;
+        state.selectedProduct = null;
+      })
+      .addCase(fetchProductById.fulfilled, (state, action) => {
+        state.selectedLoading = false;
+        state.selectedProduct = action.payload.data.product;
+      })
+      .addCase(fetchProductById.rejected, (state, action) => {
+        state.selectedLoading = false;
+        state.selectedError = action.payload;
+      });
   },
 });
 
 export const { setFilter, clearFilters, setPage } = productSlice.actions;
+
+export const selectSelectedProduct = (state) => state.product.selectedProduct;
+export const selectSelectedProductLoading = (state) => state.product.selectedLoading;
+export const selectSelectedProductError = (state) => state.product.selectedError;
 
 export const selectProducts = (state) => state.product.products;
 export const selectProductTotal = (state) => state.product.total;

@@ -10,3 +10,8 @@ export const searchProducts = async (query) => {
   const response = await axiosInstance.get('/products/search', { params: { q: query } });
   return response.data;
 };
+
+export const getProductById = async (id) => {
+  const response = await axiosInstance.get(`/products/${id}`);
+  return response.data;
+};

@@ -3,10 +3,12 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectAuthUser, selectAuthToken, logoutUser } from '../../store/authSlice';
+import { selectCartItemCount } from '../../store/cartSlice';
 
 export default function Header() {
   const user = useSelector(selectAuthUser);
   const token = useSelector(selectAuthToken);
+  const cartCount = useSelector(selectCartItemCount);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -29,9 +31,11 @@ export default function Header() {
                 <span className="text-gray-700">{user.name}</span>
                 <Link to="/cart" className="relative text-gray-700 hover:text-blue-600 text-2xl">
                   🛒
-                  <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                    0
-                  </span>
+                  {cartCount > 0 && (
+                    <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                      {cartCount}
+                    </span>
+                  )}
                 </Link>
                 <Link to="/profile" className="text-gray-700 hover:text-blue-600">Profile</Link>
                 <button

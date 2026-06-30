@@ -1,5 +1,6 @@
 // /server/controllers/productController.js
 const Joi = require('joi');
+const mongoose = require('mongoose');
 const Product = require('../models/Product');
 
 // GET /api/products - list with filters, sort, pagination
@@ -122,7 +123,29 @@ const searchProducts = async (req, res) => {
   }
 };
 
+// GET /api/products/:id - single product by ID
+const getProductById = async (req, res) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ message: 'Invalid product ID' });
+  }
+
+  try {
+    const product = await Product.findById(id).populate('category', 'name');
+
+    if (!product || product.isActive === false) {
+      return res.status(404).json({ message: 'Product not found' });
+    }
+
+    res.status(200).json({ data: { product } });
+  } catch (err) {
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
 module.exports = {
   getProducts,
   searchProducts,
+  getProductById,
 };
