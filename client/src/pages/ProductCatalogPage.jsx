@@ -9,6 +9,7 @@ import {
   selectProductFilters,
   selectProductPage,
 } from '../store/productSlice';
+import { fetchCategories, selectCategories } from '../store/homeSlice';
 import { useQueryParams } from '../hooks/useQueryParams';
 import FilterSidebar from '../components/catalog/FilterSidebar';
 import SearchBar from '../components/catalog/SearchBar';
@@ -22,9 +23,17 @@ export default function ProductCatalogPage() {
   const error = useSelector(selectProductError);
   const filters = useSelector(selectProductFilters);
   const currentPage = useSelector(selectProductPage);
+  const categories = useSelector(selectCategories);
 
   // Sync filters with URL query params
   useQueryParams();
+
+  // Fetch categories on mount
+  useEffect(() => {
+    if (!categories || categories.length === 0) {
+      dispatch(fetchCategories());
+    }
+  }, [dispatch, categories]);
 
   // Fetch products on mount or when filters/page changes
   useEffect(() => {

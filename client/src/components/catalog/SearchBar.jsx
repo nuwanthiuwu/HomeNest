@@ -12,7 +12,9 @@ export default function SearchBar() {
   // Debounced search effect
   useEffect(() => {
     const timer = setTimeout(() => {
-      dispatch(searchProducts(query));
+      if (query.trim()) {
+        dispatch(searchProducts(query));
+      }
     }, 400); // 400ms debounce
 
     return () => clearTimeout(timer); // cleanup previous timer
