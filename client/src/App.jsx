@@ -15,6 +15,8 @@ import ProductCatalogPage from './pages/ProductCatalogPage';
 import ProductDetailPage from './pages/ProductDetailPage';
 import CartPage from './pages/CartPage';
 import CheckoutGuard from './pages/CheckoutGuard';
+import CheckoutPage from './pages/CheckoutPage';
+import OrderConfirmationPage from './pages/OrderConfirmationPage';
 import ProtectedRoute from './components/auth/ProtectedRoute';
 
 function AppRoutes() {
@@ -32,7 +34,8 @@ function AppRoutes() {
           <Route path="/products" element={<ProductCatalogPage />} />
           <Route path="/products/:id" element={<ProductDetailPage />} />
           <Route path="/cart" element={<CartPage />} />
-          <Route path="/checkout" element={<CheckoutGuard><div className="min-h-screen flex items-center justify-center text-gray-500">Checkout coming soon (Module 06)</div></CheckoutGuard>} />
+          <Route path="/checkout" element={<CheckoutGuard><CheckoutPage /></CheckoutGuard>} />
+          <Route path="/orders/:id/confirmation" element={<OrderConfirmationPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/forgot-password" element={<ForgotPasswordPage />} />

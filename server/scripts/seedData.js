@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const Category = require('../models/Category');
 const Product = require('../models/Product');
 const Promotion = require('../models/Promotion');
+const Coupon = require('../models/Coupon');
 
 // picsum.photos seed-based URLs — stable and always available
 const img = (seed, w = 400, h = 400) =>
@@ -18,6 +19,7 @@ const seedData = async () => {
     await Category.deleteMany({});
     await Product.deleteMany({});
     await Promotion.deleteMany({});
+    await Coupon.deleteMany({});
     console.log('Cleared existing data');
 
     // Create categories
@@ -165,12 +167,38 @@ const seedData = async () => {
     ]);
     console.log(`✓ Created ${promotions.length} promotions`);
 
+    const coupons = await Coupon.insertMany([
+      {
+        code: 'SAVE10',
+        discountPercent: 10,
+        expiryDate: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),
+        isActive: true,
+        minOrderAmount: 0,
+      },
+      {
+        code: 'SAVE20',
+        discountPercent: 20,
+        expiryDate: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),
+        isActive: true,
+        minOrderAmount: 100,
+      },
+      {
+        code: 'WELCOME',
+        discountPercent: 15,
+        expiryDate: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000),
+        isActive: true,
+        minOrderAmount: 0,
+      },
+    ]);
+    console.log(`✓ Created ${coupons.length} coupons`);
+
     console.log('\n✅ Seed data created successfully!');
     console.log(`
     Sample data:
     - ${categories.length} categories
     - ${products.length} products (6 featured, 2 new arrivals)
     - ${promotions.length} active promotion
+    - ${coupons.length} coupons
 
     Run: npm run seed  →  then visit http://localhost:5173
     `);
